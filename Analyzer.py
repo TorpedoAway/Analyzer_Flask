@@ -80,7 +80,7 @@ def index():
             # --- Load historical price data from SQLite ---
             conn = sqlite3.connect(DB_PATH)
             hist = pd.read_sql_query(
-                "SELECT date, close FROM historical WHERE ticker = ? ORDER BY date",
+                    "select date,close from (SELECT date, close FROM historical WHERE ticker = ? ORDER BY date DESC limit 275) order by date ASC",
                 conn,
                 params=(ticker,),
             )
