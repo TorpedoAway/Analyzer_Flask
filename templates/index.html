@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Analyzer{% if ticker %} — {{ ticker }}{% endif %}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #c6dff5;
+      color: #000608;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #a78bfa;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* --- Search form --- */
+    .search-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .search-bar input[type="text"] {
+      flex: 0 0 220px;
+      padding: 0.55rem 0.9rem;
+      background: #1a1a2e;
+      border: 1px solid #444466;
+      border-radius: 6px;
+      color: #e0e0e0;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar input[type="text"]:focus {
+      border-color: #a78bfa;
+    }
+
+    .search-bar button {
+      padding: 0.55rem 1.3rem;
+      background: #6d28d9;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-bar button:hover {
+      background: #7c3aed;
+    }
+
+    /* --- Error --- */
+    .error {
+      background: #3b1111;
+      border: 1px solid #e74c3c;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: #f87171;
+      margin-bottom: 1.5rem;
+    }
+
+    /* --- Chart --- */
+    .chart-wrapper {
+      background: #1a1a2e;
+      border: 1px solid #2a2a4a;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .chart-wrapper img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    /* --- Fundamentals table --- */
+    .fundamentals h2 {
+      font-size: 1.1rem;
+      color: #000608;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #c6dff5;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #2a2a4a;
+    }
+
+    thead tr {
+      background: #12122a;
+    }
+
+    thead th {
+      padding: 0.65rem 1rem;
+      text-align: left;
+      color: #a78bfa;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      border-bottom: 1px solid #2a2a4a;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #1e1e3a;
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #f0f4f5;
+    }
+
+    tbody td {
+      padding: 0.65rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    tbody td:last-child {
+      color: #000608;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+	<table>
+	<tr>
+	<td>
+		<a href=https://www.ssga.com/us/en/individual/resources/sector-tracker target="_blank"><h2>Sector Tracker</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLE><h2>XLE</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLI><h2>XLI</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLF><h2>XLF</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLRE><h2>XLRE</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLC><h2>XLC</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLY><h2>XLY</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLU><h2>XLU</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLB><h2>XLB</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLP><h2>XLP</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLV><h2>XLV</h2></a>
+	<td>
+	<a href=/Analyzer?ticker=XLK><h2>XLK</h2></a>
+
+	</tr>
+	</table>
+  <br>
+  <div class="container">
+    <h1>Stock Analyzer</h1>
+
+    <form class="search-bar" method="POST" action="/Analyzer">
+      <input
+        type="text"
+        name="ticker"
+        placeholder="Enter ticker (e.g. AAPL)"
+        value="{{ ticker or '' }}"
+        autofocus
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button type="submit">Analyze</button>
+    </form>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if chart_b64 %}
+      <div class="chart-wrapper">
+        <img src="data:image/png;base64,{{ chart_b64 }}" alt="{{ ticker }} price chart" />
+      </div>
+    {% endif %}
+
+    {% if fundamentals %}
+      <div class="fundamentals">
+        <h2>{{ ticker }} — Fundamentals</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for label, value in fundamentals.items() %}
+            <tr>
+              <td>{{ label }}</td>
+              <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
