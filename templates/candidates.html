@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S&amp;P 500 Candidates</title>
+  <style>
+    body {
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #e0e0e0;
+      margin-bottom: 20px;
+    }
+    .error {
+      color: #e74c3c;
+      margin-bottom: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #16213e;
+      font-size: 0.9em;
+    }
+    thead th {
+      background-color: #0f3460;
+      color: #e0e0e0;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 2px solid #444466;
+      white-space: nowrap;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #1a2740;
+    }
+    tbody tr:hover {
+      background-color: #22305a;
+    }
+    tbody td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #2a2a4a;
+      white-space: nowrap;
+    }
+    a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #5dade2;
+    }
+  </style>
+</head>
+<body>
+  <h1>S&amp;P 500 Candidates</h1>
+  {% if error %}
+    <p class="error">{{ error }}</p>
+  {% else %}
+  <table>
+    <thead>
+      <tr>
+        {% for col in headers %}
+        <th>{{ col }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        {% for cell in row %}
+          {% if loop.index == 1 %}
+          <td><a href="https://www.remotelocation.org/Analyzer?ticker={{ cell }}">{{ cell }}</a></td>
+          {% else %}
+          <td>{{ cell }}</td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</body>
+</html>

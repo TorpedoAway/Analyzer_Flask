@@ -6,6 +6,7 @@ import sys
 import os
 sys.path.append('/Projects/Picker/code/python_modules')
 
+import csv
 import sqlite3
 import json
 
@@ -19,8 +20,9 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-DB_PATH  = '/Projects/Picker/code/historical.db'
-INFO_DIR = '/Projects/Picker/code/data'
+DB_PATH      = '/Projects/Picker/code/historical.db'
+INFO_DIR     = '/Projects/Picker/code/data'
+CANDIDATES_CSV = '/var/www/html/scanner/sp500_results.csv'
 
 
 def format_large_number(n):
@@ -169,3 +171,18 @@ def index():
         fundamentals=fundamentals,
         error=error,
     )
+
+
+@app.route('/candidates')
+def candidates():
+    headers = []
+    rows = []
+    error = None
+    try:
+        with open(CANDIDATES_CSV, newline='') as f:
+            reader = csv.reader(f)
+            headers = next(reader)
+            rows = list(reader)
+    except Exception as e:
+        error = f'Could not load candidates: {str(e)}'
+    return render_template('candidates.html', headers=headers, rows=rows, error=error)
