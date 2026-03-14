@@ -12,7 +12,7 @@
       color: #000608;
       font-family: 'Segoe UI', Arial, sans-serif;
       min-height: 100vh;
-      padding: 2rem 1rem;
+      padding: 1rem 1rem;
     }
 
     .container {
@@ -100,7 +100,6 @@
       margin-bottom: 0.75rem;
       font-weight: 500;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -145,39 +144,51 @@
     tbody td:last-child {
       color: #000608;
       font-variant-numeric: tabular-nums;
-    }
+    }    
   </style>
 </head>
 <body>
-	<table>
-	<tr>
-	<td>
-		<a href=https://www.ssga.com/us/en/individual/resources/sector-tracker target="_blank"><h2>Sector Tracker</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLE><h2>XLE</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLI><h2>XLI</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLF><h2>XLF</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLRE><h2>XLRE</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLC><h2>XLC</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLY><h2>XLY</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLU><h2>XLU</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLB><h2>XLB</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLP><h2>XLP</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLV><h2>XLV</h2></a>
-	<td>
-	<a href=/Analyzer?ticker=XLK><h2>XLK</h2></a>
+	<div class="container">
+	    <div class="fundamentals">
+	        <table  style="width: 65%; border-collapse: collapse; border: 1px solid black;">
+        	<tr style="font-size: 18px;">
+		<td style="font-size: 24px;">Sectors:</td>
+        	<td>
+	        <a href=/Analyzer?ticker=XLE>XLE</a>
+	        <td>   
+	        <a href=/Analyzer?ticker=XLI>XLI</a>
+	        <td>
+	        <a href=/Analyzer?ticker=XLF>XLF</a>
+	        <td>
+                <a href=/Analyzer?ticker=XLRE>XLRE</a>
+                <td>
+                <a href=/Analyzer?ticker=XLC>XLC</a>
+                <td>
+                <a href=/Analyzer?ticker=XLY>XLY</a>
+                <td>
+                <a href=/Analyzer?ticker=XLU>XLU</a>
+                <td>
+                <a href=/Analyzer?ticker=XLB>XLB</a>
+                <td>
+                <a href=/Analyzer?ticker=XLP>XLP</a>
+                <td>
+                <a href=/Analyzer?ticker=XLV>XLV</a>
+                <td>
+                <a href=/Analyzer?ticker=XLK>XLK</a>
 
-	</tr>
-	</table>
+                </tr>
+		</table>
+                <table  style="width: 65%; border-collapse: collapse; border: 1px solid black;">
+		<tr style="font-size: 18px;">
+		 <td>
+                <a href=https://www.ssga.com/us/en/individual/resources/sector-tracker target="_blank">State Street Sector Tracker</a>	
+		<td><a href=/Analyzer?ticker=SPY>S&P 500</a>
+		<td><a href=/Analyzer?ticker=QQQ>Nasdaq</a>
+		<td><a href=/Analyzer?ticker=DIA>Dow Jones</a>
+		<td><a href=/Analyzer/candidates>Candidates</a>
+                </table>
+	    </div>
+	</div>
   <br>
   <div class="container">
     <h1>Stock Analyzer</h1>
@@ -199,6 +210,8 @@
       <div class="error">{{ error }}</div>
     {% endif %}
 
+    <h2><a href=https://digital.fidelity.com/prgw/digital/research/quote/dashboard/summary?symbol={{ ticker }} target="_blank">View {{ ticker }} at Fidelity.com</a></h2>
+
     {% if chart_b64 %}
       <div class="chart-wrapper">
         <img src="data:image/png;base64,{{ chart_b64 }}" alt="{{ ticker }} price chart" />
@@ -208,7 +221,7 @@
     {% if fundamentals %}
       <div class="fundamentals">
         <h2>{{ ticker }} — Fundamentals</h2>
-        <table>
+        <table style="width: 65%; border: 1">
           <thead>
             <tr>
               <th>Metric</th>
